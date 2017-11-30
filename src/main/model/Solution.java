@@ -8,7 +8,7 @@ public class Solution {
     private Date updated;
     private String description;
 
-    
+
     public Solution() {
     }
 
