@@ -1,6 +1,11 @@
 package main.model;
 
 import main.jbcrypt.BCrypt;
+import main.resources.sql.DbConnectionManager;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class User {
     private int id;
@@ -8,7 +13,7 @@ public class User {
     private String password;
     private String email;
     private String salt;
-    private int personGroupId;
+    private int person_group_id;
 
     public String getSalt() {
         return salt;
@@ -19,11 +24,11 @@ public class User {
     }
 
     public int getPersonGroupId() {
-        return personGroupId;
+        return person_group_id;
     }
 
     public User setPersonGroupId(int personGroupId) {
-        this.personGroupId = personGroupId;
+        this.person_group_id = personGroupId;
         return this;
     }
 
@@ -61,6 +66,8 @@ public class User {
     }
 
     public User() {
+//        this.id = 1;
+
     }
 
     public User(String username, String email, String password, int personGroupId){
@@ -70,4 +77,47 @@ public class User {
                 setPassword(password).
                 setPersonGroupId(personGroupId);
     }
+
+    //methods DB
+
+    public void saveToDB() {
+        if (this.id==0) {
+            try {
+                String generatedColumns[] = { "ID" };
+                PreparedStatement prpstmnt = DbConnectionManager.getPreparedStatement("INSERT INTO user(username,email,password,salt) VALUES (?,?,?,?)",generatedColumns);
+                prpstmnt.setString(1, this.username);
+                prpstmnt.setString(2, this.email);
+                prpstmnt.setString(3, this.password);
+                prpstmnt.setString(4, this.salt);
+                prpstmnt.executeLargeUpdate();
+                ResultSet result = prpstmnt.getGeneratedKeys();
+
+                if (result.next()) {
+                    this.id = result.getInt(1);
+
+                    System.out.println("Inserted ID -" + this.id);
+
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        else {
+            try {
+                PreparedStatement prpstmnt = DbConnectionManager.getPreparedStatement("UPDATE user SET username = ?, email = ?, password = ?, salt = ? WHERE id = ?");
+                prpstmnt.setString(1, this.username);
+                prpstmnt.setString(2, this.email);
+                prpstmnt.setString(3, this.password);
+                prpstmnt.setString(4, this.salt);
+                prpstmnt.setInt(5, this.id);
+                prpstmnt.executeLargeUpdate();
+                System.out.println("else, Inserted ID -" + this.id);
+
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+
 }
