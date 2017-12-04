@@ -83,10 +83,9 @@ CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
-  `password` varchar(245) COLLATE utf8_polish_ci DEFAULT NULL,
-  `salt` varchar(45) COLLATE utf8_polish_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
+  `salt` varchar(255) COLLATE utf8_polish_ci DEFAULT NULL,
   `user_group_id` int(11) DEFAULT NULL,
-  `usercol` varchar(45) COLLATE utf8_polish_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`),
   KEY `user_group_idx` (`user_group_id`),
@@ -100,7 +99,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`id`, `username`, `email`, `password`, `salt`, `user_group_id`, `usercol`) VALUES (1,'John.Borys','john.borys@gmail.com','$2a$10$.jGeUTpYDSI4gwlx5wj0SOtF7EuHycm3A48qh663v1mTIkX0TOVUu','$2a$10$.jGeUTpYDSI4gwlx5wj0SO',1,NULL),(2,'John.Doe','john.doe@gmail.com','$2a$10$8g3EJXp6bHktnZw9DG1peOtdiHnbZP04Ul/7K34zoWSGnD9jR1tL6','$2a$10$8g3EJXp6bHktnZw9DG1peO',3,NULL),(3,'John.Paster','john.paster@gmail.com','$2a$10$NENtYJPdKzOA6VrNo5prR.SMqemlf8g5/C5LHfwl1rAA8p6WkK9AG','$2a$10$NENtYJPdKzOA6VrNo5prR.',1,NULL);
+INSERT INTO `user` (`id`, `username`, `email`, `password`, `salt`, `user_group_id`) VALUES (1,'John.Borys','john.borys@gmail.com','$2a$10$.jGeUTpYDSI4gwlx5wj0SOtF7EuHycm3A48qh663v1mTIkX0TOVUu','$2a$10$.jGeUTpYDSI4gwlx5wj0SO',1),(2,'John.Doe','john.doe@gmail.com','$2a$10$8g3EJXp6bHktnZw9DG1peOtdiHnbZP04Ul/7K34zoWSGnD9jR1tL6','$2a$10$8g3EJXp6bHktnZw9DG1peO',3),(3,'John.Paster','john.paster@gmail.com','$2a$10$NENtYJPdKzOA6VrNo5prR.SMqemlf8g5/C5LHfwl1rAA8p6WkK9AG','$2a$10$NENtYJPdKzOA6VrNo5prR.',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,4 +136,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-12-04 18:19:56
+-- Dump completed on 2017-12-04 19:19:31

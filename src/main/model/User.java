@@ -119,5 +119,41 @@ public class User {
         }
     }
 
+    public void delete(){
+        String sql = "DELETE FROM user WHERE id= ?";
+        try{
+            if(this.id!=0){
+                PreparedStatement stmt = DbConnectionManager.getPreparedStatement(sql);
+                stmt.setInt(1, this.id);
+                stmt.executeUpdate();
+                this.id=0;
+            }
+        }catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 
+    // static methods
+    public static User loadById(int id){
+        try {
+            String sql = "SELECT * FROM user where id=?";
+            PreparedStatement stmt = DbConnectionManager.getPreparedStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                User loadedUser = new User();
+                loadedUser.id = resultSet.getInt("id");
+                loadedUser.username = resultSet.getString("username");
+                loadedUser.password = resultSet.getString("password");
+                loadedUser.email = resultSet.getString("email");
+                loadedUser.salt = resultSet.getString("salt");
+                return loadedUser;
+            }
+
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+
+        return null;
+    }
 }
