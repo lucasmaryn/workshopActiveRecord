@@ -6,6 +6,7 @@ import main.resources.sql.DbConnectionManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class User {
     private int id;
@@ -13,7 +14,7 @@ public class User {
     private String password;
     private String email;
     private String salt;
-    private int person_group_id;
+    private int user_group_id;
 
     public String getSalt() {
         return salt;
@@ -24,11 +25,11 @@ public class User {
     }
 
     public int getPersonGroupId() {
-        return person_group_id;
+        return user_group_id;
     }
 
     public User setPersonGroupId(int personGroupId) {
-        this.person_group_id = personGroupId;
+        this.user_group_id = personGroupId;
         return this;
     }
 
@@ -62,7 +63,9 @@ public class User {
 
     @Override
     public String toString(){
-        return "id: "+this.id+" username: "+this.username+" email:"+this.email+" password:" + this.password;
+        return "id: "+this.id+" username: "+this.username+" email:"+this.email
+                +" password:" + this.password+" user_group_id:" + this.user_group_id
+                +"\n";
     }
 
     public User() {
@@ -149,11 +152,35 @@ public class User {
                 loadedUser.salt = resultSet.getString("salt");
                 return loadedUser;
             }
-
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        return null;
+    }
 
+    public static ArrayList<User> loadAllUsers(){
+        String sql = "SELECT * FROM user";
+        PreparedStatement stmt = DbConnectionManager.getPreparedStatement(sql);
+        return getUsersFromStatement(stmt);
+    }
+    private static ArrayList<User> getUsersFromStatement(PreparedStatement stmt) {
+        try {
+            ArrayList<User> users = new ArrayList<User>();
+            ResultSet resultSet = stmt.executeQuery();
+            while (resultSet.next()) {
+                User loadedUser = new User();
+                loadedUser.id = resultSet.getInt("id");
+                loadedUser.username = resultSet.getString("username");
+                loadedUser.password = resultSet.getString("password");
+                loadedUser.email = resultSet.getString("email");
+                loadedUser.salt = resultSet.getString("salt");
+                loadedUser.user_group_id = resultSet.getInt("user_group_id");
+                users.add(loadedUser);
+            }
+            return users;
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
         return null;
     }
 }

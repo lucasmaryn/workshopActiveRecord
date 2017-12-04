@@ -27,11 +27,31 @@ public class AppMain {
         user02.saveToDB();
         */
 
-//      Printing users with selected ID
+//        Printing users with selected ID
+        /*
         User loadedUser00 = new User();
         System.out.println("User with id 1:\n" + loadedUser00.loadById(1) +" \n");
         System.out.println("User with id 2:\n" +  loadedUser00.loadById(2) +" \n");
         System.out.println("User with id 3:\n" +  loadedUser00.loadById(3) +" \n");
+        */
+
+//        Reading object from DB
+        /*
+        User loadedUser00 = new User();
+        System.out.println( loadedUser00.loadAllUsers().toString() );
+        */
+
+//        Adding and deleting user
+
+        User user03 = new User();
+        user03.setEmail("john.bro@gmail.com")
+                .setPassword("password342")
+                .setUsername("John.Bro");
+        user03.saveToDB();
+        System.out.println(user03);
+
+        user03.delete();
+        System.out.println(user03);
 
         stopApplication();
     }
