@@ -9,7 +9,7 @@ public class DbConnectionManager {
     static Connection connection;
     public static Connection getConnection() throws Exception {
         String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "programming_school";
+        String dbName = "workshop_active_record";
         String userName = "root";
         String password = "MyNewPass";
         if(connection==null){ // use OR .isClosed()
